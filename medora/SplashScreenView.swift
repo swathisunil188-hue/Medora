@@ -1,4 +1,4 @@
-//import SwiftUI
+import SwiftUI
 
 struct SplashScreenView: View {
     @State private var isActive = false
@@ -59,7 +59,7 @@ struct SplashScreenView: View {
 struct RootRouterView: View {
     var body: some View {
         if LocalStorageService.shared.getCurrentUser() != nil {
-            HomeView()
+            HomeDashboardView()
         } else {
             LoginView()
         }
@@ -74,4 +74,5 @@ struct RootRouterView: View {
 //
 //  Created by STUDENT_24 on 30/07/26.
 //
+
 

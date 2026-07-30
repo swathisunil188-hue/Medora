@@ -1,4 +1,5 @@
-//import SwiftUI
+import SwiftUI
+import Foundation
 
 struct LoginView: View {
     @State private var email = ""
@@ -49,7 +50,7 @@ struct LoginView: View {
                     .padding(.bottom, 20)
                 }
             }
-            .navigationDestination(isPresented: $navigateToHome) { HomeView() }
+            .navigationDestination(isPresented: $navigateToHome) { HomeDashboardView() }
             .navigationDestination(isPresented: $navigateToRegister) { RegisterView() }
         }
     }
@@ -90,4 +91,5 @@ struct LoginView: View {
 //
 //  Created by STUDENT_24 on 30/07/26.
 //
+
 

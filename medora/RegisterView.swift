@@ -1,4 +1,4 @@
-//import SwiftUI
+import SwiftUI
 
 struct RegisterView: View {
     @Environment(\.dismiss) var dismiss
@@ -11,6 +11,7 @@ struct RegisterView: View {
     @State private var confirmPassword = ""
     @State private var errorMessage = ""
     @State private var showError = false
+    @State private var isLoading = false
     @State private var navigateToLogin = false
 
     let genders = ["Male", "Female", "Other"]
@@ -40,7 +41,7 @@ struct RegisterView: View {
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
 
-                PrimaryButton(title: "Create Account", action: handleRegister)
+                PrimaryButton(title: "Create Account", action: handleRegister, isLoading: isLoading)
                     .padding(.top, 8)
             }
             .padding(.horizontal)
@@ -66,23 +67,27 @@ struct RegisterView: View {
             showError = true
             return
         }
-        guard !LocalStorageService.shared.emailExists(email) else {
-            errorMessage = "An account with this email already exists."
-            showError = true
-            return
-        }
 
+        isLoading = true
+
+        // Phase 5: create the account in Firebase Auth and mirror the
+        // profile into Firestore, instead of only saving to UserDefaults.
         let newUser = User(
             name: name, age: ageInt, gender: gender, phone: phone,
             email: email, passwordHash: hashPassword(password)
         )
-        LocalStorageService.shared.saveUser(newUser)
-        navigateToLogin = true
+
+        FirebaseAuthService.shared.register(user: newUser, password: password) { result in
+            DispatchQueue.main.async {
+                isLoading = false
+                switch result {
+                case .success:
+                    navigateToLogin = true
+                case .failure(let error):
+                    errorMessage = error.localizedDescription
+                    showError = true
+                }
+            }
+        }
     }
 }
-//  registerview.swift
-//  medora
-//
-//  Created by STUDENT_24 on 30/07/26.
-//
-
