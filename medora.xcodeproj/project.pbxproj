@@ -10,9 +10,22 @@
 		18FA5448301B145100DB41A4 /* medora.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = medora.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		18FA546A301B2C0700DB41A4 /* Exceptions for "medora" folder in "medora" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"shared components.swift",
+			);
+			target = 18FA5447301B145100DB41A4 /* medora */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		18FA544A301B145100DB41A4 /* medora */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				18FA546A301B2C0700DB41A4 /* Exceptions for "medora" folder in "medora" target */,
+			);
 			path = medora;
 			sourceTree = "<group>";
 		};
