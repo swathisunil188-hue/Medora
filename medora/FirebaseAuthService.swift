@@ -2,9 +2,15 @@ import Foundation
 // Add via Xcode: File -> Add Package Dependencies -> https://github.com/firebase/firebase-ios-sdk
 // Select products: FirebaseAuth, FirebaseFirestore
 // Also drag your GoogleService-Info.plist (from the Firebase console) into the project root.
+#if canImport(FirebaseAuth) && canImport(FirebaseFirestore)
 import FirebaseAuth
 import FirebaseFirestore
+#else
+// Lightweight stubs so the project builds without Firebase packages present.
+// The service below will return a helpful error at runtime.
+#endif
 
+#if canImport(FirebaseAuth) && canImport(FirebaseFirestore)
 /// Replaces the local-only auth from Phase 1 with real Firebase Authentication,
 /// and mirrors the user's profile into Firestore so it's available across devices.
 /// LocalStorageService is still used as an on-device cache of "who is currently
@@ -121,3 +127,37 @@ class FirebaseAuthService {
         }
     }
 }
+#else
+// Fallback stub when Firebase isn't linked
+class FirebaseAuthService {
+    static let shared = FirebaseAuthService()
+    private init() {}
+
+    enum AuthError: Error, LocalizedError {
+        case notConfigured
+        var errorDescription: String? {
+            "Firebase is not configured. Add the Firebase SDKs or remove Firebase usage."
+        }
+    }
+
+    var isSignedIn: Bool { false }
+
+    func register(user: User, password: String, completion: @escaping (Result<User, Error>) -> Void) {
+        completion(.failure(AuthError.notConfigured))
+    }
+
+    func login(email: String, password: String, completion: @escaping (Result<User, Error>) -> Void) {
+        completion(.failure(AuthError.notConfigured))
+    }
+
+    func logout() throws { /* no-op */ }
+
+    func updateProfile(_ user: User, completion: @escaping (Result<Void, Error>) -> Void) {
+        completion(.failure(AuthError.notConfigured))
+    }
+
+    func saveReport(_ report: Report, completion: @escaping (Result<Void, Error>) -> Void) {
+        completion(.failure(AuthError.notConfigured))
+    }
+}
+#endif

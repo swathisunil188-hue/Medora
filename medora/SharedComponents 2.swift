@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CustomTextField: View {
+struct CustomTextField2: View {
     let title: String
     @Binding var text: String
     var keyboardType: UIKeyboardType = .default
@@ -37,7 +37,7 @@ struct CustomTextField: View {
     }
 }
 
-struct PrimaryButton: View {
+struct PrimaryButton2: View {
     let title: String
     let action: () -> Void
     var isLoading: Bool = false
@@ -180,3 +180,4 @@ struct SeverityBadge: View {
             .cornerRadius(8)
     }
 }
+

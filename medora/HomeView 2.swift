@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct HomeView: View {
+struct HomeDashboardView: View {
     @State private var currentUser: User? = LocalStorageService.shared.getCurrentUser()
     @State private var showLogoutConfirm = false
     @State private var navigateToLogin = false
@@ -140,5 +140,5 @@ private struct HealthInfoRow: View {
 }
 
 #Preview {
-    HomeView()
+    HomeDashboardView()
 }

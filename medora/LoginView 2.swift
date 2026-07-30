@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct LoginView: View {
+struct LoginScreen: View {
     @State private var email = ""
     @State private var password = ""
     @State private var errorMessage = ""
@@ -24,8 +24,26 @@ struct LoginView: View {
                     .padding(.top, 60)
 
                     VStack(spacing: 16) {
-                        CustomTextField(title: "Email", text: $email, keyboardType: .emailAddress)
-                        CustomTextField(title: "Password", text: $password, isSecure: true)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Email").font(.footnote).foregroundColor(.secondary)
+                            TextField("you@example.com", text: $email)
+                                .keyboardType(.emailAddress)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled(true)
+                                .padding(10)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(10)
+                        }
+
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("Password").font(.footnote).foregroundColor(.secondary)
+                            SecureField("••••••••", text: $password)
+                                .textInputAutocapitalization(.never)
+                                .autocorrectionDisabled(true)
+                                .padding(10)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(10)
+                        }
 
                         if showError {
                             Text(errorMessage)
@@ -36,8 +54,22 @@ struct LoginView: View {
                     }
                     .padding(.horizontal)
 
-                    PrimaryButton(title: "Log In", action: handleLogin, isLoading: isLoading)
-                        .padding(.horizontal)
+                    Button(action: handleLogin) {
+                        HStack {
+                            if isLoading {
+                                ProgressView().tint(.white)
+                            }
+                            Text(isLoading ? "Logging In…" : "Log In")
+                                .fontWeight(.semibold)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(isLoading ? Color.blue.opacity(0.6) : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(12)
+                    }
+                    .disabled(isLoading)
+                    .padding(.horizontal)
 
                     Spacer()
 
@@ -50,7 +82,7 @@ struct LoginView: View {
                     .padding(.bottom, 20)
                 }
             }
-            .navigationDestination(isPresented: $navigateToHome) { HomeView() }
+            .navigationDestination(isPresented: $navigateToHome) { HomeDashboardView() }
             .navigationDestination(isPresented: $navigateToRegister) { RegisterView() }
         }
     }
